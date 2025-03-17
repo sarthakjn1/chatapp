@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Swapna302#",
+    "database": "chat_app",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
