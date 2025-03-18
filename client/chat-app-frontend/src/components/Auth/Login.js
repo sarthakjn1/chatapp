@@ -19,6 +19,9 @@ const Login = ({ setIsAuthenticated }) => {
       });
 
       if (response.status === 200) {
+        console.log('Login successful:', response.data);
+        localStorage.setItem('user_email', response.data.data.email);
+        localStorage.setItem('user_id', response.data.data.id);
         setIsAuthenticated(true);
         navigate('/chat'); // Redirect to chat page
       }

@@ -56,7 +56,7 @@ class AuthController {
       }
 
       // Generate a JWT token
-      const token = jwt.sign({ userId: user.user_id }, 'your_secret_key', {
+      const token = jwt.sign({ userId: user.id }, 'your_secret_key', {
         expiresIn: '1h',
       });
 
@@ -64,6 +64,8 @@ class AuthController {
         status: 'success',
         data: {
           token,
+          email: user.email,
+          id: user.id
         },
       });
     } catch (error) {

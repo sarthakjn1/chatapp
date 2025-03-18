@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ChatContext } from '../../context/ChatContext';
 
 const MessageList = () => {
-  const messages = [
-    { id: 1, text: 'Hello!', sender: 'User1' },
-    { id: 2, text: 'Hi there!', sender: 'User2' },
-  ]; // Mock messages
+  const { messages } = useContext(ChatContext); // Access messages from the context
 
   return (
     <div className="mb-3">
       <h3>Messages</h3>
       <ul className="list-unstyled">
-        {messages.map((message) => (
-          <li key={message.id} className="mb-2">
+        {messages.map((message, index) => (
+          <li key={index} className="mb-2">
             <div className="card">
               <div className="card-body">
-                <strong>{message.sender}:</strong> {message.text}
+                <strong>{message.sender}:</strong> {message.content}
               </div>
             </div>
           </li>
