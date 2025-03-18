@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ChatContext } from '../../context/ChatContext';
 
 const UserList = () => {
-  const { selectedUser, setSelectedUser, setMessages } = useContext(ChatContext); // Access context
+  const { selectedUser, setSelectedUser, setMessages, setUserIdToUsernameMap } = useContext(ChatContext); // Access context
   const [users, setUsers] = useState([]); // State to store users
   const [loading, setLoading] = useState(true); // State to handle loading state
   const [error, setError] = useState(''); // State to handle errors
@@ -33,11 +33,15 @@ const UserList = () => {
           setUsers(users); // Update state with users
 
           // Create a map of email to user_id
-          const map = {};
+          const emailMap = {};
+          // Create a map of user_id to username
+          const idToUsernameMap = {};
           users.forEach((user) => {
-            map[user.email] = user.id;
+            emailMap[user.email] = user.id;
+            idToUsernameMap[user.id] = user.username;
           });
-          setEmailToIdMap(map);
+          setEmailToIdMap(emailMap);
+          setUserIdToUsernameMap(idToUsernameMap); // Update context with the map
 
           // Select the first user by default
           if (users.length > 0) {
@@ -56,7 +60,7 @@ const UserList = () => {
     };
 
     fetchUsers(); // Call the async function
-  }, [setSelectedUser]); // Add setSelectedUser to dependency array
+  }, [setSelectedUser, setUserIdToUsernameMap]); // Add setSelectedUser and setUserIdToUsernameMap to dependency array
 
   const fetchMessages = async (selectedUserId) => {
     const loggedInUserId = localStorage.getItem('user_id'); // Get logged-in user's ID
@@ -69,6 +73,7 @@ const UserList = () => {
     try {
       // Fetch messages common to both users
       const response = await axios.get(`http://localhost:3000/message${loggedInUserId ? `?senderId=${loggedInUserId}` : ''}${selectedUserId ? `&receiverId=${selectedUserId}` : ''}`);
+
 
       // Update messages in the context
       setMessages(response.data?.data?.messages || []);
