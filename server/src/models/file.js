@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const MediaMetadata = sequelize.define('MediaMetadata', {
-    media_id: {
+  const File = sequelize.define('File', {
+    file_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     file_type: {
-      type: DataTypes.ENUM('image', 'video', 'audio', 'document'),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     file_size: {
@@ -30,16 +30,16 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'pending',
     },
   }, {
-    tableName: 'media_metadata', // Explicitly define the table name
+    tableName: 'file', // Explicitly define the table name
     timestamps: true, // Adds `createdAt` and `updatedAt` fields
   });
 
-  MediaMetadata.associate = (models) => {
-    MediaMetadata.belongsTo(models.Message, {
+  File.associate = (models) => {
+    File.belongsTo(models.Message, {
       foreignKey: 'message_id', // Foreign key in `media_metadata`
       as: 'message', // Alias for the association
     });
   };
 
-  return MediaMetadata;
+  return File;
 };

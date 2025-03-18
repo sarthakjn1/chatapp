@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       sequence_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,

@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('media_metadata', {
-      media_id: {
+    await queryInterface.createTable('file', {
+      file_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
       },
       file_type: {
-        type: Sequelize.ENUM('image', 'video', 'audio', 'document'),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       file_size: {
@@ -44,6 +44,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('media_metadata');
+    await queryInterface.dropTable('file');
   },
 };

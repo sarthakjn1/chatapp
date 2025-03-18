@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'sent',
     },
     sequence_number: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATE,
       allowNull: false,
     },
   }, {
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Message.associate = (models) => {
-    Message.hasMany(models.MediaMetadata, {
+    Message.hasMany(models.File, {
       foreignKey: 'message_id', // Foreign key in `media_metadata`
       as: 'media', // Alias for the association
     });
