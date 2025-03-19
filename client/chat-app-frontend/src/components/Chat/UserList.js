@@ -111,7 +111,7 @@ const UserList = () => {
 
   return (
     <div className="user-list-container">
-      <h2 className="user-list-title">Users</h2>
+      <h2 className="user-list-title">Chats</h2>
       <List className="user-list">
         {users.map((user) => (
           <ListItem

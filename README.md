@@ -102,3 +102,34 @@ Start the backend server:
 npm run dev
 ```
 The backend will run on http://localhost:3000
+
+### Client
+
+#### **1. Install Dependencies**
+Navigate to the `client\chat-app-frontend` folder and install dependencies:
+```bash
+cd client/chat-app-frontend
+npm install
+```
+
+#### **4. Start the Backend Server**
+Start the frontend server:
+
+```bash
+npm run dev
+```
+
+## Testing
+
+### Backend
+Use Postman or cURL to test the API endpoints.
+
+Example: Fetch messages between two users:
+
+```bash
+curl "http://localhost:3000/message/messages?senderId=1&receiverId=2"
+```
+### Frontend
+Open the React app in your browser (http://localhost:3001).
+
+Send messages, upload files, and verify the UI updates in real-time.
