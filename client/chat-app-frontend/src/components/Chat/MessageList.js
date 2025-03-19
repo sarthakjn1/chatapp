@@ -11,13 +11,11 @@ import './MessageList.css'; // Import the CSS file
 const MessageList = () => {
   const { messages, userIdToUsernameMap } = useContext(ChatContext); // Access context
   const loggedInUserId = localStorage.getItem('user_id'); // Get logged-in user's ID
-  console.log(messages);
 
   return (
     <div className="message-list-container">
       <h2 className="message-list-title">Messages</h2>
       <List className="message-list">
-        
         {messages.map((message, index) => {
           // Get the sender's username from the map
           const senderUsername =
@@ -28,18 +26,26 @@ const MessageList = () => {
           // Format the createdAt date
           const formattedDate = formatDate(message.createdAt);
 
+          // Check if the message is sent by the logged-in user
+          const isLoggedInUser = message.sender_id == loggedInUserId;
+
           return (
-            <ListItem key={index} className="message-item">
-              <Card className="message-card">
+            <ListItem
+              key={index}
+              className={`message-item ${isLoggedInUser ? 'right' : 'left'}`} // Apply conditional styling
+            >
+              <Card
+                className={`message-card ${isLoggedInUser ? 'right' : 'left'}`} // Apply conditional styling
+              >
                 <CardContent>
                   <Typography variant="subtitle1" className="message-sender">
-                    <strong>{senderUsername}</strong>
+                    {senderUsername}
                   </Typography>
                   <Typography variant="body2" className="message-content">
                     {message.content}
                   </Typography>
                   <div className="message-footer">
-                    <Typography variant="caption">{formattedDate}</Typography>
+                    <Typography variant="caption">{formattedDate}</Typography>              
                   </div>
                   <div className="message-footer">
                   <Typography
@@ -48,7 +54,7 @@ const MessageList = () => {
                     >
                       {message.status}
                     </Typography>
-                  </div>
+                    </div>
                 </CardContent>
               </Card>
             </ListItem>

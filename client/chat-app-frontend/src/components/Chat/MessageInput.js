@@ -4,13 +4,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import './MessageInput.css'; // Import the CSS file
 import axios from 'axios';
+import './MessageInput.css'; // Import the CSS file
 
 const MessageInput = () => {
   const [message, setMessage] = useState(''); // State to store the message content
   const [file, setFile] = useState(null); // State to store the selected file
-  const { selectedUser } = useContext(ChatContext); // Access selectedUser from context
+  const { selectedUser, messages, setMessages } = useContext(ChatContext); // Access selectedUser and setMessages from context
   const loggedInUserId = localStorage.getItem('user_id'); // Get logged-in user's ID
 
   const handleSendMessage = async () => {
@@ -30,6 +30,19 @@ const MessageInput = () => {
       if (messageResponse.status === 201) {
         console.log('Message Response:', messageResponse);
         const sequenceNumber = messageResponse.data.sequence_number; // Extract sequence_number from the response
+
+        // Optimistic Update: Add the sent message to the messages state immediately
+        const newMessage = {
+          id: sequenceNumber, // Use sequence_number as the message ID
+          content: message,
+          sender_id: +loggedInUserId,
+          receiver_id: selectedUser.id,
+          createdAt: new Date().toISOString(), // Use the current time as the created time
+          status: 'sent', // Assume the message is sent
+        };
+
+        // Update the messages state in the context
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
 
         // Step 2: If a file is selected, upload it with the sequence_number
         if (file) {
@@ -70,6 +83,8 @@ const MessageInput = () => {
 
   return (
     <div className="message-input-container">
+      
+
       {/* Message Input */}
       <TextField
         className="message-input"
