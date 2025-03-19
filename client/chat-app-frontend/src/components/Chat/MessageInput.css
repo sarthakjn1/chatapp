@@ -1,0 +1,38 @@
+.message-input-container {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: white;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .message-input {
+    flex: 1;
+    margin-right: 16px;
+  }
+  
+  .message-input .MuiOutlinedInput-root {
+    border-radius: 25px;
+  }
+  
+  .message-input .MuiOutlinedInput-input {
+    padding: 12px 16px;
+  }
+  
+  .file-upload-button {
+    margin-right: 16px;
+  }
+  
+  .send-button {
+    background-color: #1976d2; /* Material-UI primary color */
+    color: white;
+    border-radius: 25px;
+    padding: 12px 24px;
+    text-transform: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .send-button:hover {
+    background-color: #1565c0; /* Darker shade for hover */
+  }

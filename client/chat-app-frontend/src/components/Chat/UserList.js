@@ -1,6 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { ChatContext } from '../../context/ChatContext';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import './UserList.css'; // Import the CSS file
 
 const UserList = () => {
   const { selectedUser, setSelectedUser, setMessages, setUserIdToUsernameMap } = useContext(ChatContext); // Access context
@@ -15,9 +23,7 @@ const UserList = () => {
       const userEmail = localStorage.getItem('user_email');
 
       if (!userEmail) {
-        setError('User email not found in localStorage.');
-        setLoading(false);
-        return;
+        setLoading(true);
       }
 
       try {
@@ -74,7 +80,6 @@ const UserList = () => {
       // Fetch messages common to both users
       const response = await axios.get(`http://localhost:3000/message${loggedInUserId ? `?senderId=${loggedInUserId}` : ''}${selectedUserId ? `&receiverId=${selectedUserId}` : ''}`);
 
-
       // Update messages in the context
       setMessages(response.data?.data?.messages || []);
     } catch (err) {
@@ -89,30 +94,43 @@ const UserList = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state
+    return (
+      <div className="user-list-container">
+        <CircularProgress /> {/* Show loading spinner */}
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="alert alert-danger">{error}</div>; // Show error message
+    return (
+      <div className="user-list-container">
+        <Alert severity="error">{error}</Alert> {/* Show error message */}
+      </div>
+    );
   }
 
   return (
-    <div className="card">
-      <div className="card-body">
-        <h3 className="card-title">Users</h3>
-        <ul className="list-group">
-          {users.map((user, index) => (
-            <li
-              key={index}
-              className={`list-group-item ${selectedUser?.id === user.id ? 'active' : ''}`}
-              onClick={() => handleUserClick(user)} // Handle user selection
-              style={{ cursor: 'pointer' }} // Make it look clickable
-            >
-              {user.username}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="user-list-container">
+      <h2 className="user-list-title">Users</h2>
+      <List className="user-list">
+        {users.map((user) => (
+          <ListItem
+            key={user.id}
+            className={`user-list-item ${selectedUser?.id === user.id ? 'selected' : ''}`}
+            onClick={() => handleUserClick(user)}
+          >
+            <ListItemAvatar>
+              <Avatar className="user-list-item-avatar">
+                {user.username.charAt(0).toUpperCase()}
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={user.username}
+              className="user-list-item-name"
+            />
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 };

@@ -24,6 +24,8 @@ const Login = ({ setIsAuthenticated }) => {
       if (response.status === 200) {
         setIsAuthenticated(true);
         localStorage.setItem('isAuthenticated', 'true'); // Store authentication state
+        localStorage.setItem('user_email', email); // Store user email
+        localStorage.setItem('user_id', response.data.data.id); // Store user ID
         navigate('/chat'); // Redirect to chat page
       }
     } catch (err) {

@@ -1,30 +1,17 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { ChatContext } from '../../context/ChatContext';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import './MessageInput.css'; // Import the CSS file
+import axios from 'axios';
 
 const MessageInput = () => {
   const [message, setMessage] = useState(''); // State to store the message content
   const [file, setFile] = useState(null); // State to store the selected file
-  const { selectedUser, messages, setMessages } = useContext(ChatContext); // Access selectedUser and setMessages from context
+  const { selectedUser } = useContext(ChatContext); // Access selectedUser from context
   const loggedInUserId = localStorage.getItem('user_id'); // Get logged-in user's ID
-
-  const fetchLatestMessages = async () => {
-    try {
-      // Fetch the latest messages for the selected user
-      const response = await axios.get('http://localhost:3000/message', {
-        params: {
-          senderId: loggedInUserId,
-          receiverId: selectedUser.id,
-        },
-      });
-
-      // Update the messages in the context
-      setMessages(response.data?.data?.messages || []);
-    } catch (err) {
-      console.error('Failed to fetch latest messages:', err);
-    }
-  };
-
 
   const handleSendMessage = async () => {
     if (!message.trim() && !file) {
@@ -42,19 +29,7 @@ const MessageInput = () => {
 
       if (messageResponse.status === 201) {
         console.log('Message Response:', messageResponse);
-        
         const sequenceNumber = messageResponse.data.sequence_number; // Extract sequence_number from the response
-         // Optimistic Update: Add the sent message to the messages state immediately
-         const newMessage = {
-          sequence_number: sequenceNumber, // Use sequence_number as the message ID
-          content: message,
-          sender_id: +loggedInUserId,
-          receiver_id: selectedUser.id,
-          createdAt: new Date().toISOString(), // Use the current time as the created time
-          status: 'sent', // Assume the message is sent
-        };
-
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
 
         // Step 2: If a file is selected, upload it with the sequence_number
         if (file) {
@@ -75,8 +50,6 @@ const MessageInput = () => {
             alert('File uploaded successfully!');
           }
         }
-        // Step 3: Fetch the latest messages and update the UI
-        await fetchLatestMessages();
 
         // Clear the input fields after sending
         setMessage('');
@@ -96,28 +69,37 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="d-flex align-items-center">
+    <div className="message-input-container">
       {/* Message Input */}
-      <input
-        type="text"
-        className="form-control me-2"
+      <TextField
+        className="message-input"
+        variant="outlined"
+        placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type a message..."
+        fullWidth
       />
-
-      {/* File Upload Input */}
-      <input
-        type="file"
-        className="form-control me-2"
-        onChange={handleFileChange}
-        style={{ width: 'auto' }} // Adjust the width of the file input
-      />
-
+      {/* File Upload Button */}
+      <IconButton
+        className="file-upload-button"
+        component="label"
+        color="primary"
+      >
+        <AttachFileIcon />
+        <input
+          type="file"
+          hidden
+          onChange={handleFileChange}
+        />
+      </IconButton>
       {/* Send Button */}
-      <button className="btn btn-primary" onClick={handleSendMessage}>
+      <Button
+        className="send-button"
+        variant="contained"
+        onClick={handleSendMessage}
+      >
         Send
-      </button>
+      </Button>
     </div>
   );
 };
