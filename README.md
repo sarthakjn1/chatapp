@@ -77,7 +77,28 @@ The backend follows a **RESTful API design** with the following endpoints:
 ### Backend
 
 #### **1. Install Dependencies**
-Navigate to the `backend` folder and install dependencies:
+Navigate to the `server` folder and install dependencies:
 ```bash
-cd backend
+cd server
 npm install
+```
+
+#### **2. Setup the database**
+Create a MySQL database named chat_app.
+
+Update the database credentials in config/config.json.
+
+#### **3. Run Migrations**
+Run Sequelize migrations to create the database tables:
+
+```bash
+npx sequelize-cli db:migrate
+```
+
+#### **4. Start the Backend Server**
+Start the backend server:
+
+```bash
+npm run dev
+```
+The backend will run on http://localhost:3000
