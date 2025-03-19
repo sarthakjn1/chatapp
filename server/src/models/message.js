@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
-    message_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     sender_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -22,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'sent',
     },
     sequence_number: {
-      type: DataTypes.DATE,
+      type: DataTypes.BIGINT,
+      primaryKey: true,
       allowNull: false,
     },
   }, {
@@ -32,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Message.associate = (models) => {
     Message.hasMany(models.File, {
-      foreignKey: 'message_id', // Foreign key in `media_metadata`
+      foreignKey: 'sequence_number', // Foreign key in `media_metadata`
       as: 'media', // Alias for the association
     });
 

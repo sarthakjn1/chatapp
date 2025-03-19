@@ -5,12 +5,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    message_id: {
-      type: DataTypes.INTEGER,
+    sequence_number: {
+      type: DataTypes.BIGINT,
       allowNull: false,
       references: {
         model: 'messages', // References the `messages` table
-        key: 'message_id', // References the `message_id` column
+        key: 'sequence_number', // References the `sequence_number` column
       },
     },
     file_url: {
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 
   File.associate = (models) => {
     File.belongsTo(models.Message, {
-      foreignKey: 'message_id', // Foreign key in `media_metadata`
+      foreignKey: 'sequence_number', // Foreign key in `media_metadata`
       as: 'message', // Alias for the association
     });
   };

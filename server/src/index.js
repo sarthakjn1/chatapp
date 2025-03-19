@@ -25,18 +25,18 @@ messageQueueService.connect().then(() => {
           sender_id: message.sender_id,
           receiver_id: message.receiver_id,
           content: message.content,
-          sequence_number: message.sequence_number,
+          sequence_number: message.sequence_number
         });
 
         // Emit the message to the receiver using Socket.IO
         const io = getIO();
         io.emit('receiveMessage', savedMessage);
 
-        console.log('Message processed and saved:', savedMessage);
       } else if (message.type === 'file') {
         // Save the file metadata to the database
+        console.log('Processing file:', message);
         const savedFile = await fileRepository.create({
-          message_id: message.message_id,
+          sequence_number: message.sequence_number,
           sender_id: message.sender_id,
           receiver_id: message.receiver_id,
           file_url: message.file_url,

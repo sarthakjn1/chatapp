@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import './Login.css'; // Import the CSS file
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
@@ -19,52 +22,43 @@ const Login = ({ setIsAuthenticated }) => {
       });
 
       if (response.status === 200) {
-        console.log('Login successful:', response.data);
-        localStorage.setItem('user_email', response.data.data.email);
-        localStorage.setItem('user_id', response.data.data.id);
         setIsAuthenticated(true);
+        localStorage.setItem('isAuthenticated', 'true'); // Store authentication state
         navigate('/chat'); // Redirect to chat page
       }
     } catch (err) {
-        console.log(err);
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     }
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h2 className="card-title text-center">Login</h2>
-              {error && <div className="alert alert-danger">{error}</div>}
-              <form onSubmit={handleLogin}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password:</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary w-100">Login</button>
-              </form>
-            </div>
-          </div>
-        </div>
+    <div className="login-container">
+      <div className="login-card">
+        <h2 className="login-title">Login</h2>
+        {error && <div className="error-message">{error}</div>}
+        <form className="login-form" onSubmit={handleLogin}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button type="submit" className="login-button">
+            Login
+          </Button>
+        </form>
+        <Link to="/register" className="login-link">
+          Not a user? Register yourself
+        </Link>
       </div>
     </div>
   );

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import UserList from './UserList';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
+import { useNavigate } from 'react-router-dom';
 
 const ChatInterface = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated'); // Clear authentication state
+    navigate('/login'); // Redirect to login page
+  };
+
   return (
     <div className="container-fluid mt-3">
       <div className="row">
@@ -15,6 +23,10 @@ const ChatInterface = () => {
             <div className="card-body">
               <MessageList />
               <MessageInput />
+              {/* Logout Button */}
+              <button className="btn btn-danger mt-3" onClick={handleLogout}>
+                Logout
+              </button>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ const messageQueueService = require('../services/messageQueueService');
 const MessageRepository = require('../repositories/messageRepository');
 
 const messageRepository = new MessageRepository();
+let sequence_number = null;
 
 
 class MessageController {
@@ -14,7 +15,7 @@ class MessageController {
 
     try {
       // Enqueue the message
-      await messageQueueService.enqueueMessage({
+      sequence_number = await messageQueueService.enqueueMessage({
         type: 'message', // Indicate that this is a message
         sender_id,
         receiver_id,
@@ -23,6 +24,7 @@ class MessageController {
 
       res.status(201).json({
         status: 'success',
+        sequence_number: sequence_number,
         message: 'Message enqueued for processing',
       });
     } catch (error) {

@@ -3,12 +3,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Messages', {
-      message_id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
       sender_id: {
         type: Sequelize.INTEGER
       },
@@ -19,10 +13,11 @@ module.exports = {
         type: Sequelize.TEXT
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('sent', 'delivered', 'read')
       },
       sequence_number: {
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT,
+        primaryKey: true
       },
       createdAt: {
         allowNull: false,

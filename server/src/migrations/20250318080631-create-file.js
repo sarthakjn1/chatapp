@@ -7,12 +7,12 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      message_id: {
-        type: Sequelize.INTEGER,
+      sequence_number: {
+        type: Sequelize.BIGINT,
         allowNull: false,
         references: {
           model: 'messages', // References the `messages` table
-          key: 'message_id', // References the `message_id` column
+          key: 'sequence_number', // References the `message_id` column
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
@@ -30,7 +30,7 @@ module.exports = {
         allowNull: false,
       },
       upload_status: {
-        type: Sequelize.ENUM('pending', 'completed', 'failed'),
+        type: Sequelize.STRING,
         defaultValue: 'pending',
       },
       createdAt: {

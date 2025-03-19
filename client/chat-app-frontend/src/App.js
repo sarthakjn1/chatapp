@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
@@ -7,6 +7,19 @@ import { ChatProvider } from './context/ChatContext';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check for authentication state on app load
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    if (storedAuth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Update localStorage when authentication state changes
+  useEffect(() => {
+    localStorage.setItem('isAuthenticated', isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <ChatProvider>

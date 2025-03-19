@@ -31,8 +31,20 @@ class MessageQueueService {
       Buffer.from(JSON.stringify(message)),
       { persistent: true }
     );
+    return sequenceNumber;
+  }
 
-    console.log('Message enqueued:', message);
+  async enqueueFile(message) {
+    if (!this.channel) {
+      throw new Error('RabbitMQ channel not initialized');
+    }
+
+    // Send the message to the queue
+    this.channel.sendToQueue(
+      this.queueName,
+      Buffer.from(JSON.stringify(message)),
+      { persistent: true }
+    );
   }
 
   async getNextSequenceNumber() {
