@@ -15,8 +15,6 @@ This is a **full-stack chat application** built with **Node.js** (backend) and *
    - [Backend](#backend)
    - [Frontend](#frontend)
 4. [Testing](#testing)
-5. [Deployment](#deployment)
-6. [Future Enhancements](#future-enhancements)
 
 ---
 
