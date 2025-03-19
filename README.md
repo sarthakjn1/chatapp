@@ -14,7 +14,8 @@ This is a **full-stack chat application** built with **Node.js** (backend) and *
 3. [Setup](#setup)
    - [Backend](#backend)
    - [Frontend](#frontend)
-4. [Testing](#testing)
+4. [AI tools leveraged](#ai-tools-used)
+5. [Testing](#testing)
 
 ---
 
@@ -116,6 +117,19 @@ Start the frontend server:
 ```bash
 npm run dev
 ```
+
+## AI Tools Used
+
+During the development of this project, I leveraged **AI tools** to assist with various aspects of the application:
+
+- **DeepSeek**: Used for generating boilerplate code, suggesting best practices, and optimizing the front-end design. DeepSeek helped streamline the development process by providing quick solutions to complex problems.
+  
+- **GitHub Copilot**: Assisted with writing backend logic, API design, and database queries. Copilot's suggestions significantly sped up the development process, especially when working on repetitive tasks or debugging code.
+
+These AI tools were instrumental in:
+- **Front-End Design**: Generating responsive and modern UI components using Material UI.
+- **Backend Architecture**: Suggesting modular and scalable code structures for the Node.js backend and message queue.
+- **API Design**: Providing insights into RESTful API best practices and endpoint design.
 
 ## Testing
 
